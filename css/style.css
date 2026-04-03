@@ -1,0 +1,477 @@
+/* =============================================
+   CSS 변수 (색상, 타이포그래피)
+   ============================================= */
+:root {
+  /* Brand Colors */
+  --color-brand: #262262;
+  --color-accent-blue: #4FC3F7;
+  --color-accent-mint: #2EC4B6;
+  --color-cta: #FF7A59;
+  --color-sub: #6C63FF;
+
+  /* Light Mode */
+  --color-bg: #FFFFFF;
+  --color-bg-soft: #F9FAFB;
+  --color-text-title: #111827;
+  --color-text-body: #1A1A1A;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+
+  /* 폰트 */
+  --font-base: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-small: 14px;
+  --font-size-medium: 16px;
+  --font-size-large: 18px;
+  --font-size-current: var(--font-size-medium);
+
+  /* 레이아웃 */
+  --header-height: 56px;
+}
+
+/* 다크모드 변수 */
+[data-theme="dark"] {
+  --color-bg: #0F172A;
+  --color-bg-soft: #1E293B;
+  --color-text-title: #F9FAFB;
+  --color-text-body: #E5E7EB;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  --color-accent-mint: #3DDC97;
+  --color-cta: #FF8A65;
+}
+
+/* =============================================
+   Reset & Base
+   ============================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--font-size-current);
+}
+
+body {
+  font-family: var(--font-base);
+  font-size: 1rem;
+  color: var(--color-text-body);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-base);
+}
+
+input, textarea {
+  font-family: var(--font-base);
+}
+
+/* =============================================
+   앱 레이아웃
+   ============================================= */
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* =============================================
+   헤더
+   ============================================= */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: var(--header-height);
+  background-color: var(--color-brand);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header__logo {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.05em;
+}
+
+.header__actions {
+  display: flex;
+  gap: 4px;
+}
+
+/* =============================================
+   아이콘 버튼 공통
+   ============================================= */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  color: #FFFFFF;
+  transition: background-color 0.15s;
+}
+
+.btn-icon:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-icon:active {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* =============================================
+   메인
+   ============================================= */
+.main {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* =============================================
+   검색 바
+   ============================================= */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background-color: var(--color-bg);
+  position: sticky;
+  top: var(--header-height);
+  z-index: 90;
+  border-bottom: 1px solid var(--color-bg-soft);
+}
+
+.search-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-bg-soft);
+  border-radius: 10px;
+  padding: 0 12px;
+  height: 40px;
+}
+
+.search-icon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 0.9375rem;
+  color: var(--color-text-body);
+}
+
+.search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* 검색 바의 별 버튼은 색상 다르게 */
+.btn-star-filter {
+  color: var(--color-text-secondary);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: var(--color-bg-soft);
+}
+
+.btn-star-filter:hover {
+  background-color: var(--color-bg-soft);
+  color: var(--color-text-body);
+}
+
+/* 중요 필터 활성 상태 */
+.btn-star-filter.active {
+  color: var(--color-cta);
+}
+
+.btn-star-filter.active svg {
+  fill: var(--color-cta);
+}
+
+/* =============================================
+   메모 목록
+   ============================================= */
+.memo-list {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 메모 카드 */
+.memo-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: var(--color-bg-soft);
+  border-radius: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+
+.memo-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.memo-card:active {
+  opacity: 0.85;
+}
+
+.memo-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.memo-card__title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-title);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memo-card__date {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+
+/* 별 버튼 (카드 내) */
+.memo-card__star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.memo-card__star:hover {
+  color: var(--color-cta);
+}
+
+.memo-card__star.active {
+  color: var(--color-cta);
+}
+
+.memo-card__star.active svg {
+  fill: var(--color-cta);
+}
+
+/* =============================================
+   빈 상태
+   ============================================= */
+.empty-state {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.8;
+}
+
+/* =============================================
+   에디터 화면
+   ============================================= */
+.view-editor {
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - var(--header-height));
+}
+
+.editor-textarea {
+  flex: 1;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: var(--font-size-current);
+  color: var(--color-text-body);
+  background-color: var(--color-bg);
+  line-height: 1.7;
+}
+
+.editor-textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* 에디터 하단 버튼 영역 */
+.editor-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid var(--color-bg-soft);
+  background-color: var(--color-bg);
+}
+
+.editor-actions__left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 에디터 별 버튼 */
+.btn-important {
+  color: var(--color-text-muted);
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  transition: color 0.15s;
+}
+
+.btn-important:hover {
+  color: var(--color-cta);
+  background-color: var(--color-bg-soft);
+}
+
+.btn-important.active {
+  color: var(--color-cta);
+}
+
+.btn-important.active svg {
+  fill: var(--color-cta);
+}
+
+/* 텍스트 버튼 (카메라, 녹음) */
+.btn-text {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  transition: background-color 0.15s;
+}
+
+.btn-text:hover {
+  background-color: var(--color-bg-soft);
+}
+
+/* 저장 버튼 */
+.btn-save {
+  padding: 8px 24px;
+  background-color: var(--color-accent-mint);
+  color: #FFFFFF;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: opacity 0.15s;
+}
+
+.btn-save:hover {
+  opacity: 0.88;
+}
+
+.btn-save:active {
+  opacity: 0.75;
+}
+
+/* =============================================
+   더보기 메뉴
+   ============================================= */
+.more-menu {
+  position: fixed;
+  top: var(--header-height);
+  right: 8px;
+  background-color: var(--color-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 8px 0;
+  min-width: 180px;
+  z-index: 200;
+  border: 1px solid var(--color-bg-soft);
+}
+
+.more-menu ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.more-menu li {
+  padding: 2px 0;
+}
+
+.more-menu button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  font-size: 0.9375rem;
+  color: var(--color-text-body);
+  transition: background-color 0.1s;
+}
+
+.more-menu button:hover {
+  background-color: var(--color-bg-soft);
+}
+
+/* 글자크기 그룹 */
+.more-menu li:has(.font-size-group) {
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.more-menu li > span {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.font-size-group {
+  display: flex;
+  gap: 6px;
+}
+
+.font-size-group button {
+  flex: 1;
+  text-align: center;
+  padding: 6px 0;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background-color: var(--color-bg-soft);
+  color: var(--color-text-secondary);
+}
+
+.font-size-group button.active {
+  background-color: var(--color-brand);
+  color: #FFFFFF;
+}
+
+/* =============================================
+   유틸리티
+   ============================================= */
+
+/* hidden 속성 기본 처리 */
+[hidden] {
+  display: none !important;
+}

@@ -113,7 +113,26 @@ input, textarea {
 
 .header__actions {
   display: flex;
+  align-items: center;
   gap: 4px;
+}
+
+/* 앱 설치 버튼 */
+.btn-install {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-brand);
+  background-color: #FFFFFF;
+  transition: opacity 0.15s;
+}
+
+.btn-install:hover {
+  opacity: 0.85;
 }
 
 /* =============================================
@@ -142,8 +161,11 @@ input, textarea {
    메인
    ============================================= */
 .main {
-  flex: 1;
+  flex: 1 1 0;
+  min-height: 0;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* =============================================
@@ -153,11 +175,8 @@ input, textarea {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 16px;
+  padding: 8px 16px;
   background-color: var(--color-bg);
-  position: sticky;
-  top: var(--header-height);
-  z-index: 90;
   border-bottom: 1px solid var(--color-bg-soft);
 }
 
@@ -226,14 +245,14 @@ input, textarea {
 /* 메모 카드 */
 .memo-card {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
   gap: 12px;
   background-color: var(--color-bg-soft);
   border-radius: 12px;
   padding: 14px 16px;
   cursor: pointer;
   transition: box-shadow 0.15s;
+  width: 100%;
 }
 
 .memo-card:hover {
@@ -245,17 +264,22 @@ input, textarea {
 }
 
 .memo-card__body {
-  flex: 1;
+  flex: 1 1 0;
   min-width: 0;
+  width: 0;        /* flex 컨텍스트에서 너비 0 → flex-grow로 확장되도록 강제 */
 }
 
 .memo-card__title {
   font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--color-text-title);
+  color: #111827;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+[data-theme="dark"] .memo-card__title {
+  color: #F9FAFB;
 }
 
 .memo-card__date {
@@ -274,6 +298,7 @@ input, textarea {
   border-radius: 6px;
   color: var(--color-text-muted);
   flex-shrink: 0;
+  margin-left: auto;
   transition: color 0.15s;
 }
 
@@ -306,19 +331,39 @@ input, textarea {
 .view-editor {
   display: flex;
   flex-direction: column;
-  height: calc(100dvh - var(--header-height));
+  flex: 1;                          /* main 안에서 남은 공간 채우기 */
+  overflow: hidden;                 /* 자식이 넘치지 않도록 */
+  position: relative;
+  padding: 12px 16px 0;
+  background-color: var(--color-bg);
+}
+
+/* textarea 카드 */
+.editor-card {
+  flex: 1 1 0;                      /* 남은 공간 채우되 min-height 0으로 수축 허용 */
+  min-height: 0;                    /* flex 컨테이너 내 overflow 정상 동작 */
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid var(--color-bg-soft);
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--color-bg);
+}
+
+[data-theme="dark"] .editor-card {
+  border-color: #2D3748;
 }
 
 .editor-textarea {
   flex: 1;
   width: 100%;
-  padding: 16px;
+  padding: 14px;
   border: none;
   outline: none;
   resize: none;
   font-size: var(--font-size-current);
   color: var(--color-text-body);
-  background-color: var(--color-bg);
+  background-color: transparent;
   line-height: 1.7;
 }
 
@@ -328,53 +373,76 @@ input, textarea {
 
 /* 에디터 하단 버튼 영역 */
 .editor-actions {
+  flex-shrink: 0;                   /* 항상 고정 높이 유지 */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
-  border-top: 1px solid var(--color-bg-soft);
-  background-color: var(--color-bg);
+  padding: 10px 0 12px;
 }
 
 .editor-actions__left {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
-/* 에디터 별 버튼 */
-.btn-important {
-  color: var(--color-text-muted);
-  width: 40px;
-  height: 40px;
+/* 에디터 공통 버튼 (텍스트형) */
+.btn-editor-action {
+  padding: 7px 12px;
   border-radius: 8px;
-  transition: color 0.15s;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-bg-soft);
+  background-color: var(--color-bg-soft);
+  transition: background-color 0.15s, color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn-important:hover {
-  color: var(--color-cta);
-  background-color: var(--color-bg-soft);
+.btn-editor-action:hover {
+  background-color: #E5E7EB;
+  color: var(--color-text-body);
+}
+
+[data-theme="dark"] .btn-editor-action:hover {
+  background-color: #2D3748;
+}
+
+/* 별(중요) 버튼 — 아이콘만 */
+.btn-important {
+  width: 36px;
+  height: 36px;
+  padding: 0;
 }
 
 .btn-important.active {
   color: var(--color-cta);
+  border-color: var(--color-cta);
+  background-color: #FFF1EE;
+}
+
+[data-theme="dark"] .btn-important.active {
+  background-color: rgba(255, 122, 89, 0.15);
 }
 
 .btn-important.active svg {
   fill: var(--color-cta);
 }
 
-/* 텍스트 버튼 (카메라, 녹음) */
-.btn-text {
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  transition: background-color 0.15s;
+/* 삭제 버튼 — 강조색 */
+.btn-delete:hover {
+  color: #EF4444;
+  border-color: #EF4444;
+  background-color: #FEF2F2;
 }
 
-.btn-text:hover {
-  background-color: var(--color-bg-soft);
+/* 녹음 중 상태 */
+.btn-record.recording {
+  color: #EF4444;
+  border-color: #EF4444;
+  background-color: #FEF2F2;
 }
 
 /* 저장 버튼 */
@@ -394,6 +462,52 @@ input, textarea {
 
 .btn-save:active {
   opacity: 0.75;
+}
+
+/* 녹음 상태 표시 바 */
+.record-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #FEF2F2;
+  border-top: 1px solid #FECACA;
+  font-size: 0.875rem;
+  color: #EF4444;
+}
+
+[data-theme="dark"] .record-status {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.record-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #EF4444;
+  animation: blink 1s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+#record-time {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  flex: 1;
+}
+
+#btn-record-stop {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  background-color: #EF4444;
 }
 
 /* =============================================
@@ -465,6 +579,198 @@ input, textarea {
 .font-size-group button.active {
   background-color: var(--color-brand);
   color: #FFFFFF;
+}
+
+/* =============================================
+   이미지 미리보기
+   ============================================= */
+.image-preview-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--color-bg-soft);
+}
+
+.image-preview-item {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.image-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 오디오 첨부 아이템 */
+.image-preview-item audio {
+  width: 160px;
+  height: 36px;
+}
+
+.image-preview-item:has(audio) {
+  width: 160px;
+  height: auto;
+  padding: 8px;
+  background-color: var(--color-bg-soft);
+  border-radius: 8px;
+}
+
+.image-preview-item__delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.55);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+}
+
+/* 이미지 선택 메뉴 */
+.image-picker-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 52px;
+  background-color: var(--color-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--color-bg-soft);
+  overflow: hidden;
+  z-index: 200;
+}
+
+.image-picker-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 0.9375rem;
+  color: var(--color-text-body);
+  transition: background-color 0.1s;
+}
+
+.image-picker-menu button:hover {
+  background-color: var(--color-bg-soft);
+}
+
+/* 이미지 버튼 */
+.btn-image {
+  color: var(--color-text-secondary);
+}
+
+.btn-image:hover {
+  color: var(--color-accent-mint);
+  background-color: var(--color-bg-soft);
+}
+
+/* 메모 카드 — 이미지 첨부 표시 */
+.memo-card__image-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* =============================================
+   에디터 — 삭제 / 공유 / 복사 버튼
+   ============================================= */
+
+/* 에디터 내 아이콘 버튼은 색상 다르게 */
+.btn-delete,
+.btn-share,
+.btn-copy {
+  color: var(--color-text-secondary);
+}
+
+.btn-delete:hover {
+  color: #EF4444;
+  background-color: #FEF2F2;
+}
+
+.btn-share:hover,
+.btn-copy:hover {
+  color: var(--color-accent-mint);
+  background-color: var(--color-bg-soft);
+}
+
+/* =============================================
+   더보기 메뉴 — 다크모드 토글 인디케이터
+   ============================================= */
+#menu-darkmode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.darkmode-indicator {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: var(--color-text-muted);
+  position: relative;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.darkmode-indicator::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  transition: transform 0.2s;
+}
+
+.darkmode-indicator.on {
+  background-color: var(--color-accent-mint);
+}
+
+.darkmode-indicator.on::after {
+  transform: translateX(16px);
+}
+
+/* =============================================
+   토스트 알림
+   ============================================= */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: #1F2937;
+  color: #F9FAFB;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* =============================================
